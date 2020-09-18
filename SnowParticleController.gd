@@ -11,7 +11,7 @@ func _ready():
 	pass # Replace with function body.
 
 func setOffset(d):
- position = Vector2(25,2 + d)
+ position = Vector2(5,10 + d)
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 #func _process(delta):
 #	pass

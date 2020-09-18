@@ -2,15 +2,15 @@
 
 importer="texture"
 type="StreamTexture"
-path="res://.import/sheet.png-48e98f90ff11c9a4243df5944cff3914.stex"
+path="res://.import/DinoSprites - mort.png-d640de7cd47862c238059d2678a4da9e.stex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://iceworld/sheet.png"
-dest_files=[ "res://.import/sheet.png-48e98f90ff11c9a4243df5944cff3914.stex" ]
+source_file="res://dinos/DinoSprites - mort.png"
+dest_files=[ "res://.import/DinoSprites - mort.png-d640de7cd47862c238059d2678a4da9e.stex" ]
 
 [params]
 
@@ -20,7 +20,7 @@ compress/hdr_mode=0
 compress/bptc_ldr=0
 compress/normal_map=0
 flags/repeat=0
-flags/filter=true
+flags/filter=false
 flags/mipmaps=false
 flags/anisotropic=false
 flags/srgb=2

@@ -3,7 +3,7 @@ extends Camera2D
 # Smoothing duration in seconds
 const SMOOTHING_DURATION: = 0.5
 
-const XFWD = 400
+const XFWD = 100
 
 # Current position of the camera
 var current_position: Vector2

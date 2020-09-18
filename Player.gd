@@ -1,10 +1,10 @@
 extends KinematicBody2D
 
 # Constants
-const ACCEL = 100
-const MINSPEED = 100
-const MAXSPEED = 300
-const CAMERA_GROUNDED_LOOKAHEAD = 5
+const ACCEL = 50
+const MINSPEED = 50
+const MAXSPEED = 150
+const CAMERA_GROUNDED_LOOKAHEAD = 1
 const CAMERA_AIR_LOOKAHEAD = 0.1
 const FALLRAYCASTDIST = 100
 const GRAVITY = 5
@@ -58,7 +58,7 @@ func handleRot(boardState, delta):
 func animateToTargetAngle(delta):
 	var v = lerp(currAngle,targAngle,5*delta)
 	currAngle = v
-	var y_bias = abs(currAngle) * (20.0/45.0)
+	var y_bias = abs(currAngle) * (5.0/45.0)
 	
 	get_node("Sprite").rotation_degrees = currAngle
 	get_node("Sprite").offset.y = y_bias	
