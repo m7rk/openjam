@@ -1,7 +1,7 @@
 # JURASSIC SNOWPARK
 My entry for Open Jam 2020.
 
-Dino characters are from @ScissorMarks. I made some edits to the sprites. (CC BY 4.0)
+Dino characters are from @ScissorMarks. I made some edits to the sprites. (CC BY 4.0).
 
 Everything else in this repository is in the public domain.
 
