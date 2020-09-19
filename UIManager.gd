@@ -45,3 +45,7 @@ func _on_Player_airborne(air):
 		pointsTotal += int(10 * pow(airTimeTotal,POINTPOWER))
 		airTimeTotal = 0
 		
+
+
+func _on_Diamond_got_diamond():
+	pointsTotal += 10

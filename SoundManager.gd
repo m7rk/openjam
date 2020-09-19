@@ -20,6 +20,7 @@ func _process(delta):
 	shred.volume_db = -60 + (50 * get_node("../../Player").velocityShredRatio())
 	main.volume_db = lerp(main.volume_db,targVol, FADETIME * delta)
 
-func _on_BunnyHill_body_entered(body):
+
+func _on_LiftSends_game_end(body):
 	if(body.name == "Player"):
 		targVol = -100

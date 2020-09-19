@@ -3,22 +3,27 @@ extends KinematicBody2D
 
 signal airborne
 
-# Constants
+# Camera Constants
+const CAMERA_GROUNDED_LOOKAHEAD = 1
+const CAMERA_AIR_LOOKAHEAD = 0.3
+
+# Logic Constants
+const FALLRAYCASTDIST = 100
+
+# Game Mechanic Constants
 const ACCEL = 20
 const MINSPEED = 0
 const MAXSPEED = 120
-const CAMERA_GROUNDED_LOOKAHEAD = 1
-const CAMERA_AIR_LOOKAHEAD = 0.1
-const FALLRAYCASTDIST = 100
 const GRAVITY = 5
 const BOOST_MAX = 5.0
 const OVER_SPEED_FRCTION = 1
 const BOOSTACCEL = 7
 const DOWNHILLBONUS = 50
 const UPHILLBONUS = 10
+const DECEL = 15
+const GAME_END_DECEL = 200
  
-
-# Keep track of velocity.
+# Movement Variables
 var fwdVelocity = MINSPEED
 var velocityInput = 0;
 var boostInput = false
@@ -32,6 +37,8 @@ var airVel = 0
 # Board rotation, cosmetic.
 var currAngle = 0
 var targAngle = 0
+
+var gameEnded = false
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
@@ -48,15 +55,21 @@ func getStaminaPct():
 	
 func updateVelocity(delta):
 	fwdVelocity += delta * ACCEL * velocityInput
-	fwdVelocity = max(fwdVelocity, MINSPEED)
-	
+
 	if(fwdVelocity > MAXSPEED):
 		fwdVelocity = lerp(fwdVelocity, MAXSPEED, delta * OVER_SPEED_FRCTION)
 		
 	if boost > 0 && boostInput:
 		fwdVelocity += BOOSTACCEL * ACCEL * delta
 		boost -= delta
-	
+		
+	if velocityInput == 0:
+		fwdVelocity -= delta * DECEL
+	if gameEnded:
+		fwdVelocity -= delta * GAME_END_DECEL
+		
+	fwdVelocity = max(fwdVelocity, MINSPEED)
+		
 
 func velocityShredRatio():
 	if grounded:
@@ -148,10 +161,13 @@ func _process(delta):
 		targAngle = 0
 		animateToTargetAngle(delta)
 		
-	
 
 
 func _input(ev):
+	if(gameEnded):
+		velocityInput = 0
+		return
+		
 	if Input.is_key_pressed(KEY_RIGHT):
 		velocityInput = 1
 	elif Input.is_key_pressed(KEY_LEFT):
@@ -162,3 +178,6 @@ func _input(ev):
 	boostInput = false
 	if Input.is_key_pressed(KEY_B):
 		boostInput = true
+
+func _on_LiftSends_game_end():
+	gameEnded = true

@@ -1,7 +1,7 @@
 extends Camera2D
 
 # Smoothing duration in seconds
-const SMOOTHING_DURATION: = 0.5
+const SMOOTHING_DURATION: = 0.1
 
 const XFWD = 100
 
