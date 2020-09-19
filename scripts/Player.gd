@@ -8,7 +8,7 @@ const CAMERA_GROUNDED_LOOKAHEAD = 1
 const CAMERA_AIR_LOOKAHEAD = 0.3
 
 # Logic Constants
-const FALLRAYCASTDIST = 100
+const FALLRAYCASTDIST = 50
 
 # Game Mechanic Constants
 const ACCEL = 20
@@ -115,9 +115,8 @@ func getYVel():
 	else:
 		return CAMERA_AIR_LOOKAHEAD * airVel
 
-
 # Called every frame. 'delta' is the elapsed time since the previous frame.
-func _process(delta):
+func _physics_process(delta):
 
 	if grounded:
 		updateVelocity(delta)
@@ -129,13 +128,14 @@ func _process(delta):
 		
 		# Drop the board.
 		# If we were on the ramp, and we read a flat board here, then we need to ignore this and set state to airborne.
-		var last_pos = position
+		var last_pos = position + Vector2(0,2)
 		
 		move_and_collide(Vector2(0,FALLRAYCASTDIST))
 		
 		var bs = getNextBoardState()
 		
 		if(onRamp && !bs[2]):
+			print(str(bs[0]) + "," + str(bs[1]) +str(bs[2]))
 			grounded = false
 			onRamp = false
 			airVel = -fwdVelocity
