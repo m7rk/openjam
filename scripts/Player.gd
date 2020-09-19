@@ -11,17 +11,18 @@ const CAMERA_AIR_LOOKAHEAD = 0.3
 const FALLRAYCASTDIST = 50
 
 # Game Mechanic Constants
-const ACCEL = 20
+const ACCEL = 30
 const MINSPEED = 0
 const MAXSPEED = 120
-const GRAVITY = 5
-const BOOST_MAX = 5.0
+const GRAVITY = 8
+const BOOST_MAX = 3.0
 const OVER_SPEED_FRCTION = 1
-const BOOSTACCEL = 7
-const DOWNHILLBONUS = 50
+const BOOSTACCEL = 8
+const DOWNHILLBONUS = 40
 const UPHILLBONUS = 10
 const DECEL = 15
 const GAME_END_DECEL = 300
+
  
 # Movement Variables
 var fwdVelocity = MINSPEED
@@ -63,8 +64,9 @@ func updateVelocity(delta):
 		fwdVelocity += BOOSTACCEL * ACCEL * delta
 		boost -= delta
 		
-	if velocityInput == 0:
+	if velocityInput <= 0:
 		fwdVelocity -= delta * DECEL
+	
 	if gameEnded:
 		fwdVelocity -= delta * GAME_END_DECEL
 		
