@@ -55,6 +55,7 @@ func handleRot(boardState, delta):
 	
 	animateToTargetAngle(delta)
 	
+	
 func animateToTargetAngle(delta):
 	var v = lerp(currAngle,targAngle,5*delta)
 	currAngle = v
@@ -99,7 +100,12 @@ func _process(delta):
 			# Find the rotation to use.
 			handleRot(bs,delta)
 			
+		var baseIn = fwdVelocity/MAXSPEED * (1 + 3*clamp((currAngle - targAngle)/45,0,1))
+		get_node("Sprite/SnowParticles").setIntensity(baseIn)
+			
 	else:
+		
+		get_node("Sprite/SnowParticles").setIntensity(0)
 		var c = move_and_collide(Vector2(0, delta * airVel))
 		if(c):
 			grounded = true
