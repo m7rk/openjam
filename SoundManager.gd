@@ -6,7 +6,7 @@ var shred = null
 var main = null
 var alt = null
 var targVol = 0.0
-const FADETIME = 0.5
+const FADETIME = 0.3
 
 
 # Called when the node enters the scene tree for the first time.
