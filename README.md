@@ -5,9 +5,9 @@ Dino characters are from @ScissorMarks. I made some edits to the sprites. (CC BY
 
 Everything else in this repository is in the public domain.
 
-The graphical assets and fonts are from [kenney.nl](www.kenney.nl).
+The graphical assets and fonts are from [kenney.nl](https://www.kenney.nl).
 
-All sounds were created using [bfxr](www.bfxr.net).
+All sounds were created using [bfxr](https://www.bfxr.net).
 
 All music was created by me, using original recordings with the [8BitSF Soundfont (CC BY 4.0)](https://musical-artifacts.com/artifacts/23).
 
