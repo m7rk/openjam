@@ -293,3 +293,4 @@ __meta__ = {
 }
 [connection signal="airborne" from="Player" to="UI" method="_on_Player_airborne"]
 [connection signal="airborne" from="Player" to="Camera2D/SoundManager" method="_on_Player_airborne"]
+[connection signal="body_entered" from="LiftSends/BunnyHill" to="Camera2D/SoundManager" method="_on_BunnyHill_body_entered"]

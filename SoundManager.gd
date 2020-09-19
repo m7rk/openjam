@@ -6,7 +6,7 @@ var shred = null
 var main = null
 var alt = null
 var targVol = 0.0
-const FADETIME = 1
+const FADETIME = 0.5
 
 
 # Called when the node enters the scene tree for the first time.
@@ -19,6 +19,7 @@ func _ready():
 func _process(delta):
 	shred.volume_db = -60 + (50 * get_node("../../Player").velocityShredRatio())
 	main.volume_db = lerp(main.volume_db,targVol, FADETIME * delta)
-	if(targVol == 0):	
-		main.volume_db = lerp(main.volume_db,targVol, FADETIME * 2 * delta)
 
+func _on_BunnyHill_body_entered(body):
+	if(body.name == "Player"):
+		targVol = -100
