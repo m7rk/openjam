@@ -1,5 +1,8 @@
 extends KinematicBody2D
 
+
+signal airborne
+
 # Constants
 const ACCEL = 50
 const MINSPEED = 50
@@ -35,6 +38,12 @@ func getNextBoardState():
 func updateVelocity(delta):
 	fwdVelocity += delta * ACCEL * velocityInput
 	fwdVelocity = clamp(fwdVelocity, MINSPEED, MAXSPEED)
+
+func velocityShredRatio():
+	if grounded:
+		return fwdVelocity / MAXSPEED
+	else:
+		return 0
 	
 func handleRot(boardState, delta):
 	
@@ -72,6 +81,7 @@ func getYVel():
 	else:
 		return CAMERA_AIR_LOOKAHEAD * airVel
 
+
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta):
 
@@ -96,12 +106,14 @@ func _process(delta):
 			onRamp = false
 			airVel = -fwdVelocity
 			position = last_pos
+			emit_signal("airborne",true)
 		else:
 			# Find the rotation to use.
 			handleRot(bs,delta)
 			
 		var baseIn = fwdVelocity/MAXSPEED * (1 + 3*clamp((currAngle - targAngle)/45,0,1))
 		get_node("Sprite/SnowParticles").setIntensity(baseIn)
+		
 			
 	else:
 		
@@ -109,6 +121,7 @@ func _process(delta):
 		var c = move_and_collide(Vector2(0, delta * airVel))
 		if(c):
 			grounded = true
+			emit_signal("airborne",false)
 		move_and_collide(Vector2(delta * fwdVelocity,0))
 		airVel += GRAVITY
 		targAngle = 0
