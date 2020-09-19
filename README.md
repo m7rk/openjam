@@ -9,7 +9,7 @@ The graphical assets and fonts are from [kenney.nl](www.kenney.nl).
 
 All sounds were created using [bfxr](www.bfxr.net).
 
-All music was created by me, using original recordings with the [8BitSF Soundfont (CC BY 4.0)](https://musical-artifacts.com/artifacts/23)
+All music was created by me, using original recordings with the [8BitSF Soundfont (CC BY 4.0)](https://musical-artifacts.com/artifacts/23).
 
 All code was created by me.
 
