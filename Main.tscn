@@ -176,24 +176,21 @@ margin_top = 40.0
 margin_right = 1024.0
 margin_bottom = 58.0
 custom_fonts/font = SubResource( 4 )
-text = "AIRTIME 0.2"
 align = 2
 
 [node name="left" type="MarginContainer" parent="UI"]
-anchor_left = 1.0
-anchor_right = 1.0
-margin_left = -1024.0
-margin_bottom = 14.0
+margin_right = 900.0
+margin_bottom = 52.0
 __meta__ = {
 "_edit_use_anchors_": false
 }
 
 [node name="left" type="VBoxContainer" parent="UI/left"]
-margin_right = 1024.0
+margin_right = 900.0
 margin_bottom = 52.0
 
 [node name="Stamina" type="TextureProgress" parent="UI/left/left"]
-margin_right = 1024.0
+margin_right = 900.0
 margin_bottom = 30.0
 max_value = 1.0
 step = 0.01
@@ -203,13 +200,26 @@ texture_progress = ExtResource( 10 )
 
 [node name="Speed" type="Label" parent="UI/left/left"]
 margin_top = 34.0
-margin_right = 1024.0
+margin_right = 900.0
 margin_bottom = 52.0
 custom_fonts/font = ExtResource( 7 )
 text = "10 MPH"
 __meta__ = {
 "_edit_use_anchors_": false
 }
+
+[node name="Map" type="CanvasLayer" parent="."]
+
+[node name="MarginContainer" type="MarginContainer" parent="Map"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="TextureRect" type="TextureRect" parent="Map/MarginContainer"]
+margin_right = 900.0
+margin_bottom = 600.0
 
 [node name="LiftSends" type="Node2D" parent="."]
 script = ExtResource( 19 )

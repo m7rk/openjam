@@ -19,6 +19,13 @@ config/name="Open Jam"
 run/main_scene="res://Main.tscn"
 config/icon="res://icon.png"
 
+[display]
+
+window/size/width=900
+window/size/resizable=false
+window/size/test_width=900
+window/size/test_height=600
+
 [rendering]
 
 quality/driver/driver_name="GLES2"
