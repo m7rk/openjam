@@ -2,12 +2,12 @@
 
 importer="wav"
 type="AudioStreamSample"
-path="res://.import/shred.wav-7900f6bb79180a11b22445f837802ebb.sample"
+path="res://.import/shred.wav-d55a5fbf3dfe2d95cb6a0ec3ebf54c0b.sample"
 
 [deps]
 
-source_file="res://shred.wav"
-dest_files=[ "res://.import/shred.wav-7900f6bb79180a11b22445f837802ebb.sample" ]
+source_file="res://sound/shred.wav"
+dest_files=[ "res://.import/shred.wav-d55a5fbf3dfe2d95cb6a0ec3ebf54c0b.sample" ]
 
 [params]
 

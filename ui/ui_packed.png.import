@@ -2,15 +2,15 @@
 
 importer="texture"
 type="StreamTexture"
-path="res://.import/diamond.png-d70848096b3a34dea5af8f92659895d5.stex"
+path="res://.import/ui_packed.png-1f0451887e1660ee47c15be5193dbec9.stex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://diamond.png"
-dest_files=[ "res://.import/diamond.png-d70848096b3a34dea5af8f92659895d5.stex" ]
+source_file="res://ui/ui_packed.png"
+dest_files=[ "res://.import/ui_packed.png-1f0451887e1660ee47c15be5193dbec9.stex" ]
 
 [params]
 
@@ -20,7 +20,7 @@ compress/hdr_mode=0
 compress/bptc_ldr=0
 compress/normal_map=0
 flags/repeat=0
-flags/filter=false
+flags/filter=true
 flags/mipmaps=false
 flags/anisotropic=false
 flags/srgb=2

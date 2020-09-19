@@ -1,44 +1,44 @@
 [gd_scene load_steps=26 format=2]
 
-[ext_resource path="res://Tiles.tres" type="TileSet" id=1]
-[ext_resource path="res://DinoFrames.tres" type="SpriteFrames" id=2]
-[ext_resource path="res://Player.gd" type="Script" id=3]
-[ext_resource path="res://CameraSmooth.gd" type="Script" id=4]
-[ext_resource path="res://SnowParticleController.gd" type="Script" id=5]
+[ext_resource path="res://world/Tiles.tres" type="TileSet" id=1]
+[ext_resource path="res://dinos/DinoFrames.tres" type="SpriteFrames" id=2]
+[ext_resource path="res://scripts/Player.gd" type="Script" id=3]
+[ext_resource path="res://scripts/CameraSmooth.gd" type="Script" id=4]
+[ext_resource path="res://scripts/SnowParticleController.gd" type="Script" id=5]
 [ext_resource path="res://Kenney Future.ttf" type="DynamicFontData" id=6]
-[ext_resource path="res://font16.tres" type="DynamicFont" id=7]
-[ext_resource path="res://font32.tres" type="DynamicFont" id=8]
-[ext_resource path="res://ui_blue.png" type="Texture" id=9]
-[ext_resource path="res://ui_green.png" type="Texture" id=10]
-[ext_resource path="res://shred.wav" type="AudioStream" id=11]
+[ext_resource path="res://font/font16.tres" type="DynamicFont" id=7]
+[ext_resource path="res://font/font32.tres" type="DynamicFont" id=8]
+[ext_resource path="res://ui/ui_blue.png" type="Texture" id=9]
+[ext_resource path="res://ui/ui_green.png" type="Texture" id=10]
+[ext_resource path="res://sound/shred.wav" type="AudioStream" id=11]
 [ext_resource path="res://music/o1_f.wav" type="AudioStream" id=12]
 [ext_resource path="res://music/o1_b.wav" type="AudioStream" id=13]
-[ext_resource path="res://SoundManager.gd" type="Script" id=14]
-[ext_resource path="res://UIManager.gd" type="Script" id=15]
-[ext_resource path="res://diamond.png" type="Texture" id=17]
-[ext_resource path="res://Diamond.gd" type="Script" id=18]
-[ext_resource path="res://GameEndDetect.gd" type="Script" id=19]
+[ext_resource path="res://scripts/SoundManager.gd" type="Script" id=14]
+[ext_resource path="res://scripts/UIManager.gd" type="Script" id=15]
+[ext_resource path="res://world/diamond.png" type="Texture" id=17]
+[ext_resource path="res://scripts/Diamond.gd" type="Script" id=18]
+[ext_resource path="res://scripts/GameEndDetect.gd" type="Script" id=19]
 
 [sub_resource type="Gradient" id=1]
 offsets = PoolRealArray( 0, 0.641509 )
 colors = PoolColorArray( 1, 1, 1, 1, 1, 1, 1, 0 )
 
-[sub_resource type="RectangleShape2D" id=7]
+[sub_resource type="RectangleShape2D" id=2]
 extents = Vector2( 4, 4 )
 
-[sub_resource type="RectangleShape2D" id=2]
+[sub_resource type="RectangleShape2D" id=3]
 extents = Vector2( 7, 2 )
 
-[sub_resource type="RectangleShape2D" id=3]
+[sub_resource type="RectangleShape2D" id=4]
 extents = Vector2( 0.1, 1 )
 
-[sub_resource type="DynamicFont" id=4]
+[sub_resource type="DynamicFont" id=5]
 font_data = ExtResource( 6 )
 
-[sub_resource type="RectangleShape2D" id=5]
+[sub_resource type="RectangleShape2D" id=6]
 extents = Vector2( 10, 492.995 )
 
-[sub_resource type="RectangleShape2D" id=6]
+[sub_resource type="RectangleShape2D" id=7]
 
 [node name="World" type="Node2D"]
 
@@ -108,31 +108,31 @@ script = ExtResource( 5 )
 
 [node name="Head" type="CollisionShape2D" parent="Player"]
 position = Vector2( 0, -13 )
-shape = SubResource( 7 )
+shape = SubResource( 2 )
 
 [node name="Collision" type="CollisionShape2D" parent="Player"]
-shape = SubResource( 2 )
+shape = SubResource( 3 )
 
 [node name="Front" type="Area2D" parent="Player"]
 collision_layer = 0
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Player/Front"]
 position = Vector2( 7, 2 )
-shape = SubResource( 3 )
+shape = SubResource( 4 )
 
 [node name="Mid" type="Area2D" parent="Player"]
 collision_layer = 0
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Player/Mid"]
 position = Vector2( 0, 2 )
-shape = SubResource( 3 )
+shape = SubResource( 4 )
 
 [node name="Back" type="Area2D" parent="Player"]
 collision_layer = 0
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Player/Back"]
 position = Vector2( -7, 2 )
-shape = SubResource( 3 )
+shape = SubResource( 4 )
 
 [node name="Env" type="CanvasLayer" parent="."]
 layer = -1
@@ -175,7 +175,7 @@ align = 2
 margin_top = 40.0
 margin_right = 1024.0
 margin_bottom = 58.0
-custom_fonts/font = SubResource( 4 )
+custom_fonts/font = SubResource( 5 )
 align = 2
 
 [node name="left" type="MarginContainer" parent="UI"]
@@ -231,7 +231,7 @@ __meta__ = {
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="LiftSends/GameEnd"]
 position = Vector2( 4566.03, -67.1648 )
-shape = SubResource( 5 )
+shape = SubResource( 6 )
 
 [node name="GameEnd2" type="Area2D" parent="LiftSends"]
 position = Vector2( 237, 6 )
@@ -241,7 +241,7 @@ __meta__ = {
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="LiftSends/GameEnd2"]
 position = Vector2( 4566.03, -67.1648 )
-shape = SubResource( 5 )
+shape = SubResource( 6 )
 
 [node name="GameEnd3" type="Area2D" parent="LiftSends"]
 position = Vector2( 164, 1 )
@@ -251,7 +251,7 @@ __meta__ = {
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="LiftSends/GameEnd3"]
 position = Vector2( 4566.03, -67.1648 )
-shape = SubResource( 5 )
+shape = SubResource( 6 )
 
 [node name="GameEnd4" type="Area2D" parent="LiftSends"]
 position = Vector2( 107, -1 )
@@ -261,7 +261,7 @@ __meta__ = {
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="LiftSends/GameEnd4"]
 position = Vector2( 4566.03, -67.1648 )
-shape = SubResource( 5 )
+shape = SubResource( 6 )
 
 [node name="GameEnd5" type="Area2D" parent="LiftSends"]
 position = Vector2( 51, 1 )
@@ -271,7 +271,7 @@ __meta__ = {
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="LiftSends/GameEnd5"]
 position = Vector2( 4566.03, -67.1648 )
-shape = SubResource( 5 )
+shape = SubResource( 6 )
 
 [node name="LiftReturns" type="Node2D" parent="."]
 
@@ -292,7 +292,7 @@ __meta__ = {
 texture = ExtResource( 17 )
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Diamonds/Diamond"]
-shape = SubResource( 6 )
+shape = SubResource( 7 )
 
 [node name="Helpers" type="Node2D" parent="."]
 
@@ -370,8 +370,8 @@ __meta__ = {
 }
 [connection signal="airborne" from="Player" to="Camera2D/SoundManager" method="_on_Player_airborne"]
 [connection signal="airborne" from="Player" to="UI" method="_on_Player_airborne"]
-[connection signal="game_end" from="LiftSends" to="Player" method="_on_LiftSends_game_end"]
 [connection signal="game_end" from="LiftSends" to="Camera2D/SoundManager" method="_on_LiftSends_game_end"]
+[connection signal="game_end" from="LiftSends" to="Player" method="_on_LiftSends_game_end"]
 [connection signal="body_entered" from="LiftSends/GameEnd" to="Camera2D/SoundManager" method="_on_BunnyHill_body_entered"]
 [connection signal="body_entered" from="LiftSends/GameEnd" to="LiftSends" method="_on_GameEnd_body_entered"]
 [connection signal="body_entered" from="LiftSends/GameEnd2" to="Camera2D/SoundManager" method="_on_BunnyHill_body_entered"]
