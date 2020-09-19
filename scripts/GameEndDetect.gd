@@ -21,15 +21,3 @@ func try_emit(body):
 
 func _on_GameEnd_body_entered(body):
 	try_emit(body)
-
-func _on_GameEnd2_body_entered(body):
-	try_emit(body)
-	
-func _on_GameEnd3_body_entered(body):
-	try_emit(body)
-
-func _on_GameEnd4_body_entered(body):
-	try_emit(body)
-	
-func _on_GameEnd5_body_entered(body):
-	try_emit(body)

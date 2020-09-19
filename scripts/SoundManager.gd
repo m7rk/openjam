@@ -21,6 +21,5 @@ func _process(delta):
 	main.volume_db = lerp(main.volume_db,targVol, FADETIME * delta)
 
 
-func _on_LiftSends_game_end(body):
-	if(body.name == "Player"):
-		targVol = -100
+func _on_LiftSends_game_end():
+	targVol = -100

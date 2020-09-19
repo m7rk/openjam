@@ -21,7 +21,7 @@ const BOOSTACCEL = 7
 const DOWNHILLBONUS = 50
 const UPHILLBONUS = 10
 const DECEL = 15
-const GAME_END_DECEL = 200
+const GAME_END_DECEL = 300
  
 # Movement Variables
 var fwdVelocity = MINSPEED
