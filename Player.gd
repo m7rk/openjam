@@ -4,17 +4,25 @@ extends KinematicBody2D
 signal airborne
 
 # Constants
-const ACCEL = 50
+const ACCEL = 20
 const MINSPEED = 0
-const MAXSPEED = 150
+const MAXSPEED = 120
 const CAMERA_GROUNDED_LOOKAHEAD = 1
 const CAMERA_AIR_LOOKAHEAD = 0.1
 const FALLRAYCASTDIST = 100
 const GRAVITY = 5
+const BOOST_MAX = 5.0
+const OVER_SPEED_FRCTION = 2
+const BOOSTACCEL = 7
+const DOWNHILLBONUS = 50
+const UPHILLBONUS = 10
+ 
 
 # Keep track of velocity.
 var fwdVelocity = MINSPEED
 var velocityInput = 0;
+var boostInput = false
+var boost = BOOST_MAX
 
 # States about being in the air
 var grounded = true
@@ -35,13 +43,24 @@ func getNextBoardState():
 	var f = get_node("Front").get_overlapping_bodies().size() > 0
 	return [b,m,f]
 
+func getStaminaPct():
+	return boost / BOOST_MAX
+	
 func updateVelocity(delta):
 	fwdVelocity += delta * ACCEL * velocityInput
-	fwdVelocity = clamp(fwdVelocity, MINSPEED, MAXSPEED)
+	fwdVelocity = max(fwdVelocity, MINSPEED)
+	
+	if(fwdVelocity > MAXSPEED):
+		fwdVelocity = lerp(fwdVelocity, MAXSPEED, delta * OVER_SPEED_FRCTION)
+		
+	if boost > 0 && boostInput:
+		fwdVelocity += BOOSTACCEL * ACCEL * delta
+		boost -= delta
+	
 
 func velocityShredRatio():
 	if grounded:
-		return fwdVelocity / MAXSPEED
+		return fwdVelocity / (1.5*MAXSPEED)
 	else:
 		return 0
 	
@@ -54,12 +73,14 @@ func handleRot(boardState, delta):
 	# Tip the board one way or another.
 	if(b && !m && !f):
 		targAngle = 45
+		fwdVelocity += delta * DOWNHILLBONUS
 		
 	if(m):
 		targAngle = 0
 		
 	if(!b && !m && f):
 		targAngle = -45
+		fwdVelocity -= delta * UPHILLBONUS
 		onRamp = true
 	
 	animateToTargetAngle(delta)
@@ -137,3 +158,7 @@ func _input(ev):
 		velocityInput = -1
 	else:
 		velocityInput = 0
+		
+	boostInput = false
+	if Input.is_key_pressed(KEY_B):
+		boostInput = true

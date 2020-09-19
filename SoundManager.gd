@@ -22,8 +22,3 @@ func _process(delta):
 	if(targVol == 0):	
 		main.volume_db = lerp(main.volume_db,targVol, FADETIME * 2 * delta)
 
-func _on_Player_airborne(airborne):
-	if(airborne):
-		targVol = -30
-	else:
-		targVol = 0
