@@ -5,7 +5,7 @@ signal airborne
 
 # Constants
 const ACCEL = 50
-const MINSPEED = 50
+const MINSPEED = 0
 const MAXSPEED = 150
 const CAMERA_GROUNDED_LOOKAHEAD = 1
 const CAMERA_AIR_LOOKAHEAD = 0.1
