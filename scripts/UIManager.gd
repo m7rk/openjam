@@ -30,7 +30,7 @@ func _process(delta):
 		get_node("right/right/AirTime").add_color_override("font_color", Color(1,1,1,max(0,fadeTime)))
 	
 	get_node("left/left/Stamina").value = player.getStaminaPct()
-	get_node("left/left/Speed").text = str(int(player.fwdVelocity/15)) + " MPH"
+	get_node("left/left/Speed").text = " " + str(int(player.fwdVelocity/15)) + " MPH"
 	
 	var points = get_node("right/right/Points")
 	pointsCurrent = lerp(pointsCurrent,pointsTotal,POINTANIMTIME * delta)

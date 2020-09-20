@@ -1,4 +1,4 @@
-[gd_scene load_steps=26 format=2]
+[gd_scene load_steps=30 format=2]
 
 [ext_resource path="res://world/Tiles.tres" type="TileSet" id=1]
 [ext_resource path="res://dinos/DinoFrames.tres" type="SpriteFrames" id=2]
@@ -11,13 +11,17 @@
 [ext_resource path="res://ui/ui_blue.png" type="Texture" id=9]
 [ext_resource path="res://ui/ui_green.png" type="Texture" id=10]
 [ext_resource path="res://sound/shred.wav" type="AudioStream" id=11]
-[ext_resource path="res://music/o1_f.wav" type="AudioStream" id=12]
-[ext_resource path="res://music/o1_b.wav" type="AudioStream" id=13]
+[ext_resource path="res://music/title.wav" type="AudioStream" id=12]
 [ext_resource path="res://scripts/SoundManager.gd" type="Script" id=14]
 [ext_resource path="res://scripts/UIManager.gd" type="Script" id=15]
+[ext_resource path="res://ui/world.png" type="Texture" id=16]
 [ext_resource path="res://world/diamond.png" type="Texture" id=17]
 [ext_resource path="res://scripts/Diamond.gd" type="Script" id=18]
 [ext_resource path="res://scripts/GameEndDetect.gd" type="Script" id=19]
+[ext_resource path="res://scripts/Map.gd" type="Script" id=20]
+[ext_resource path="res://ui/menu_a.png" type="Texture" id=21]
+[ext_resource path="res://ui/menu_b.png" type="Texture" id=22]
+[ext_resource path="res://MainMenu.gd" type="Script" id=23]
 
 [sub_resource type="Gradient" id=1]
 offsets = PoolRealArray( 0, 0.641509 )
@@ -70,16 +74,17 @@ attenuation = 0.0034006
 position = Vector2( -54, 50 )
 stream = ExtResource( 12 )
 autoplay = true
-attenuation = 5.13244e-05
+attenuation = 2.01342e-05
 
 [node name="soundalt" type="AudioStreamPlayer2D" parent="Camera2D/SoundManager"]
 position = Vector2( -54, 50 )
-stream = ExtResource( 13 )
 autoplay = true
 attenuation = 0.0034006
 
+[node name="Tween" type="Tween" parent="Camera2D/SoundManager"]
+
 [node name="Player" type="KinematicBody2D" parent="."]
-position = Vector2( 157.695, -83.519 )
+position = Vector2( 0, -10 )
 collision_layer = 2
 collision_mask = 5
 script = ExtResource( 3 )
@@ -152,20 +157,20 @@ initial_velocity = 100.0
 script = ExtResource( 15 )
 
 [node name="right" type="MarginContainer" parent="UI"]
-anchor_left = 1.0
-anchor_right = 1.0
-margin_left = -1024.0
-margin_bottom = 14.0
+anchor_left = 0.5
+anchor_right = 0.5
+margin_right = 440.0
+margin_bottom = 40.0
 __meta__ = {
 "_edit_use_anchors_": false
 }
 
 [node name="right" type="VBoxContainer" parent="UI/right"]
-margin_right = 1024.0
+margin_right = 440.0
 margin_bottom = 58.0
 
 [node name="Points" type="Label" parent="UI/right/right"]
-margin_right = 1024.0
+margin_right = 440.0
 margin_bottom = 36.0
 custom_fonts/font = ExtResource( 8 )
 text = "300 PTS"
@@ -173,12 +178,14 @@ align = 2
 
 [node name="AirTime" type="Label" parent="UI/right/right"]
 margin_top = 40.0
-margin_right = 1024.0
+margin_right = 440.0
 margin_bottom = 58.0
 custom_fonts/font = SubResource( 5 )
 align = 2
 
 [node name="left" type="MarginContainer" parent="UI"]
+margin_left = 10.0
+margin_top = 10.0
 margin_right = 900.0
 margin_bottom = 52.0
 __meta__ = {
@@ -186,11 +193,11 @@ __meta__ = {
 }
 
 [node name="left" type="VBoxContainer" parent="UI/left"]
-margin_right = 900.0
+margin_right = 890.0
 margin_bottom = 52.0
 
 [node name="Stamina" type="TextureProgress" parent="UI/left/left"]
-margin_right = 900.0
+margin_right = 890.0
 margin_bottom = 30.0
 max_value = 1.0
 step = 0.01
@@ -200,7 +207,7 @@ texture_progress = ExtResource( 10 )
 
 [node name="Speed" type="Label" parent="UI/left/left"]
 margin_top = 34.0
-margin_right = 900.0
+margin_right = 890.0
 margin_bottom = 52.0
 custom_fonts/font = ExtResource( 7 )
 text = "10 MPH"
@@ -209,17 +216,115 @@ __meta__ = {
 }
 
 [node name="Map" type="CanvasLayer" parent="."]
+script = ExtResource( 20 )
 
 [node name="MarginContainer" type="MarginContainer" parent="Map"]
-anchor_right = 1.0
-anchor_bottom = 1.0
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+margin_left = -450.0
+margin_top = -300.0
+margin_right = 450.0
+margin_bottom = 300.0
 __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="TextureRect" type="TextureRect" parent="Map/MarginContainer"]
+[node name="VBoxContainer" type="VBoxContainer" parent="Map/MarginContainer"]
 margin_right = 900.0
 margin_bottom = 600.0
+alignment = 1
+
+[node name="HBoxContainer" type="HBoxContainer" parent="Map/MarginContainer/VBoxContainer"]
+margin_top = 50.0
+margin_right = 900.0
+margin_bottom = 550.0
+alignment = 1
+
+[node name="TextureRect" type="TextureRect" parent="Map/MarginContainer/VBoxContainer/HBoxContainer"]
+margin_left = 50.0
+margin_right = 850.0
+margin_bottom = 500.0
+texture = ExtResource( 16 )
+
+[node name="Button1" type="Button" parent="Map/MarginContainer/VBoxContainer/HBoxContainer/TextureRect"]
+margin_left = 183.335
+margin_top = 349.492
+margin_right = 231.335
+margin_bottom = 381.492
+text = "1"
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Button2" type="Button" parent="Map/MarginContainer/VBoxContainer/HBoxContainer/TextureRect"]
+margin_left = 276.98
+margin_top = 347.994
+margin_right = 324.98
+margin_bottom = 379.994
+text = "2"
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Button3" type="Button" parent="Map/MarginContainer/VBoxContainer/HBoxContainer/TextureRect"]
+margin_left = 383.134
+margin_top = 350.053
+margin_right = 431.134
+margin_bottom = 382.053
+text = "3"
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Button4" type="Button" parent="Map/MarginContainer/VBoxContainer/HBoxContainer/TextureRect"]
+margin_left = 476.778
+margin_top = 348.555
+margin_right = 524.778
+margin_bottom = 380.555
+text = "4"
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Button5" type="Button" parent="Map/MarginContainer/VBoxContainer/HBoxContainer/TextureRect"]
+margin_left = 581.728
+margin_top = 350.238
+margin_right = 629.728
+margin_bottom = 382.238
+text = "5"
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="MainMenu" type="CanvasLayer" parent="."]
+
+[node name="MarginContainer" type="MarginContainer" parent="MainMenu"]
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+margin_left = -20.0
+margin_top = -20.0
+margin_right = 20.0
+margin_bottom = 20.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource( 23 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="a" type="TextureRect" parent="MainMenu/MarginContainer"]
+margin_right = 900.0
+margin_bottom = 600.0
+texture = ExtResource( 21 )
+
+[node name="b" type="TextureRect" parent="MainMenu/MarginContainer"]
+margin_right = 900.0
+margin_bottom = 600.0
+texture = ExtResource( 22 )
 
 [node name="LiftSends" type="Node2D" parent="."]
 script = ExtResource( 19 )
@@ -254,7 +359,7 @@ position = Vector2( 4566.03, -67.1648 )
 shape = SubResource( 6 )
 
 [node name="GameEnd4" type="Area2D" parent="LiftSends"]
-position = Vector2( -14116.4, -962.55 )
+position = Vector2( -13908.7, -1115.46 )
 __meta__ = {
 "_edit_group_": true
 }
@@ -274,6 +379,21 @@ position = Vector2( 4566.03, -67.1648 )
 shape = SubResource( 6 )
 
 [node name="LiftReturns" type="Node2D" parent="."]
+
+[node name="1" type="Node2D" parent="LiftReturns"]
+position = Vector2( -0.828293, -29.722 )
+
+[node name="2" type="Node2D" parent="LiftReturns"]
+position = Vector2( -7954.2, -804.686 )
+
+[node name="3" type="Node2D" parent="LiftReturns"]
+position = Vector2( -9676.97, -830.644 )
+
+[node name="4" type="Node2D" parent="LiftReturns"]
+position = Vector2( -9675.97, -830.644 )
+
+[node name="5" type="Node2D" parent="LiftReturns"]
+position = Vector2( -9674.97, -830.644 )
 
 [node name="Diamonds" type="Node2D" parent="."]
 
@@ -369,7 +489,16 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 [connection signal="airborne" from="Player" to="UI" method="_on_Player_airborne"]
+[connection signal="load_level" from="Map" to="Camera2D/SoundManager" method="_on_Map_load_level"]
+[connection signal="load_level" from="Map" to="Player" method="_on_Map_load_level"]
+[connection signal="pressed" from="Map/MarginContainer/VBoxContainer/HBoxContainer/TextureRect/Button1" to="Map" method="_on_Button1_pressed"]
+[connection signal="pressed" from="Map/MarginContainer/VBoxContainer/HBoxContainer/TextureRect/Button2" to="Map" method="_on_Button2_pressed"]
+[connection signal="pressed" from="Map/MarginContainer/VBoxContainer/HBoxContainer/TextureRect/Button3" to="Map" method="_on_Button3_pressed"]
+[connection signal="pressed" from="Map/MarginContainer/VBoxContainer/HBoxContainer/TextureRect/Button4" to="Map" method="_on_Button4_pressed"]
+[connection signal="pressed" from="Map/MarginContainer/VBoxContainer/HBoxContainer/TextureRect/Button5" to="Map" method="_on_Button5_pressed"]
+[connection signal="player_ready" from="MainMenu/MarginContainer" to="Map" method="_on_MarginContainer_player_ready"]
 [connection signal="game_end" from="LiftSends" to="Camera2D/SoundManager" method="_on_LiftSends_game_end"]
+[connection signal="game_end" from="LiftSends" to="Map" method="_on_LiftSends_game_end"]
 [connection signal="game_end" from="LiftSends" to="Player" method="_on_LiftSends_game_end"]
 [connection signal="body_entered" from="LiftSends/GameEnd" to="LiftSends" method="_on_GameEnd_body_entered"]
 [connection signal="body_entered" from="LiftSends/GameEnd2" to="LiftSends" method="_on_GameEnd_body_entered"]

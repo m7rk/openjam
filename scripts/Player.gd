@@ -21,7 +21,7 @@ const BOOSTACCEL = 8
 const DOWNHILLBONUS = 40
 const UPHILLBONUS = 10
 const DECEL = 15
-const GAME_END_DECEL = 300
+const GAME_END_DECEL = 500
 
  
 # Movement Variables
@@ -137,7 +137,6 @@ func _physics_process(delta):
 		var bs = getNextBoardState()
 		
 		if(onRamp && !bs[2]):
-			print(str(bs[0]) + "," + str(bs[1]) +str(bs[2]))
 			grounded = false
 			onRamp = false
 			airVel = -fwdVelocity
@@ -163,11 +162,15 @@ func _physics_process(delta):
 		targAngle = 0
 		animateToTargetAngle(delta)
 		
+		
+func teleport(i):
+	position = get_node("../LiftReturns/" + str(i)).position
 
 
 func _input(ev):
 	if(gameEnded):
 		velocityInput = 0
+		boostInput = false
 		return
 		
 	if Input.is_key_pressed(KEY_RIGHT):
@@ -183,3 +186,9 @@ func _input(ev):
 
 func _on_LiftSends_game_end():
 	gameEnded = true
+
+
+func _on_Map_load_level(i):
+	teleport(i)
+	gameEnded = false
+	boost = BOOST_MAX
