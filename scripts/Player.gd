@@ -21,9 +21,10 @@ const OVER_SPEED_FRCTION = 1
 const BOOSTACCEL = 8
 const DOWNHILLBONUS = 40
 const UPHILLBONUS = 10
-const DECEL = 15
+const DECEL = 40
 const GAME_END_DECEL = 500
-const BOARD_UPGRADE_SPEED_BONUS = 40
+const BOARD_UPGRADE_SPEED_BONUS = 75
+const JETPACK_STRENGTH = 500
 
  
 # Movement Variables
@@ -34,8 +35,8 @@ var boost = BOOST_MAX
 var teleportFlag = -1
 
 # Items
-var usedJetpack = false
-var usedFireball = false
+var canUseJetpack = false
+var canUseFireball = false
 
 # States about being in the air
 var grounded = true
@@ -63,6 +64,7 @@ var hasScarf = false
 # Provides one fireball.
 var hasFireball = false
 
+var firedJetpack = false
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
@@ -81,7 +83,11 @@ func getStaminaPct():
 	return boost / BOOST_MAX
 	
 func updateVelocity(delta):
-	fwdVelocity += delta * ACCEL * velocityInput
+	
+	if(hasScarf):
+		fwdVelocity += delta * ACCEL * 2 * velocityInput
+	else:
+		fwdVelocity += delta * ACCEL * velocityInput
 
 	if(fwdVelocity >  maxSpeed()):
 		fwdVelocity = lerp(fwdVelocity, maxSpeed(), delta * OVER_SPEED_FRCTION)
@@ -161,6 +167,14 @@ func _physics_process(delta):
 		position = get_node("../LiftReturns/" + str(teleportFlag)).position
 		teleportFlag = -1
 		
+	if(firedJetpack):
+		grounded = false
+		onRamp = false
+		airVel -= JETPACK_STRENGTH
+		firedJetpack = false
+		get_node("FireParticle").play()
+		get_node("FireSound").play()
+		
 	if grounded:
 		updateVelocity(delta)
 		# Send the board up into the air.
@@ -199,6 +213,7 @@ func _physics_process(delta):
 			grounded = true
 			emit_signal("airborne",false)
 			emit_signal("landed")
+			airVel = 0
 		move_and_collide(Vector2(delta * fwdVelocity,0))
 		airVel += GRAVITY
 		targAngle = 0
@@ -217,6 +232,12 @@ func _input(ev):
 		velocityInput = -1
 	else:
 		velocityInput = 0
+	
+	if Input.is_key_pressed(KEY_M) && canUseJetpack:
+		canUseJetpack = false
+		firedJetpack = true
+		
+		
 		
 	boostInput = false
 	if Input.is_key_pressed(KEY_B):
@@ -230,9 +251,9 @@ func _on_Map_load_level(i):
 	gameEnded = false
 	boost = BOOST_MAX
 	if(hasJetpack):
-		usedJetpack = false
+		canUseJetpack = true
 	if(hasFireball):
-		usedFireball = false
+		canUseFireball = true
 		
 func getSpriteSet():
 	var base = boardLevel * 8
