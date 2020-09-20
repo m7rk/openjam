@@ -10,7 +10,7 @@ var pointsCurrent = 0
 var fadeTime = 3
 
 const POINTANIMTIME = 8
-const POINTPOWER = 1.5
+const POINTPOWER = 2.0
 
 var overRideText = ""
 
@@ -60,5 +60,5 @@ func _on_Diamond_got_diamond():
 
 func wipeout():
 	airTimeTotal = 0
-	pointsTotal = max(0, pointsTotal - 10)
-	overRideText = "WIPEOUT! -10 PTS!"
+	pointsTotal = max(0, pointsTotal - 20)
+	overRideText = "WIPEOUT! -20 PTS!"

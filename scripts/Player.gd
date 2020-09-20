@@ -24,7 +24,7 @@ const UPHILLBONUS = 10
 const DECEL = 40
 const GAME_END_DECEL = 500
 const BOARD_UPGRADE_SPEED_BONUS = 75
-const JETPACK_STRENGTH = 500
+const JETPACK_STRENGTH = 300
 
  
 # Movement Variables
@@ -37,6 +37,7 @@ var teleportFlag = -1
 # Items
 var canUseJetpack = false
 var canUseFireball = false
+var canUseEnergyDrink = false
 
 # States about being in the air
 var grounded = true
@@ -94,10 +95,12 @@ func updateVelocity(delta):
 		
 	if boost > 0 && boostInput:
 		fwdVelocity += BOOSTACCEL * ACCEL * delta
-		if hasEnergyDrink:
-			boost -= (delta / 2)
-		else:
-			boost -= delta
+		boost -= delta
+		if(boost <= 0 && canUseEnergyDrink):
+			canUseEnergyDrink = false
+			boost += 1
+			get_node("EDrinkSound").play()
+			
 		
 	if velocityInput <= 0:
 		fwdVelocity -= delta * DECEL
@@ -168,11 +171,13 @@ func _physics_process(delta):
 		teleportFlag = -1
 		
 	if(firedJetpack):
-		grounded = false
+		if grounded:
+			emit_signal("grounded",false)
+			grounded = false
 		onRamp = false
 		airVel -= JETPACK_STRENGTH
 		firedJetpack = false
-		get_node("FireParticle").play()
+		get_node("FireParticle").set_emitting(true)
 		get_node("FireSound").play()
 		
 	if grounded:
@@ -254,6 +259,8 @@ func _on_Map_load_level(i):
 		canUseJetpack = true
 	if(hasFireball):
 		canUseFireball = true
+	if(hasEnergyDrink):
+		canUseEnergyDrink = true
 		
 func getSpriteSet():
 	var base = boardLevel * 8
