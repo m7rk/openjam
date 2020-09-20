@@ -7,10 +7,12 @@ var inAir = false
 
 var pointsTotal = 0
 var pointsCurrent = 0
-var fadeTime = 1
+var fadeTime = 2
 
 const POINTANIMTIME = 8
-const POINTPOWER = 1.3
+const POINTPOWER = 1.5
+
+var overRideText = ""
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
@@ -21,11 +23,13 @@ func _ready():
 func _process(delta):
 	var player = get_node("../Player")
 	if(inAir):
-		fadeTime = 1
+		fadeTime = 2
 		airTimeTotal += delta
 		get_node("right/right/AirTime").text = "AIRTIME: " + ("%1.1f" % airTimeTotal)
 		get_node("right/right/AirTime").add_color_override("font_color", Color(1-(airTimeTotal/10),1,1-(airTimeTotal/10),1))
 	else:
+		if(overRideText != ""):
+			get_node("right/right/AirTime").text = overRideText
 		fadeTime -= delta
 		get_node("right/right/AirTime").add_color_override("font_color", Color(1,1,1,max(0,fadeTime)))
 	
@@ -41,11 +45,17 @@ func _process(delta):
 
 func _on_Player_airborne(air):
 	inAir = air
+	if(air):
+		overRideText = ""
 	if(!air):
 		pointsTotal += int(10 * pow(airTimeTotal,POINTPOWER))
 		airTimeTotal = 0
 		
 
-
 func _on_Diamond_got_diamond():
-	pointsTotal += 10
+	pointsTotal += 25
+	get_node("diamond").play()
+
+func wipeout():
+	airTimeTotal = 0
+	overRideText = "WIPEOUT!"

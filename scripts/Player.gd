@@ -2,6 +2,7 @@ extends KinematicBody2D
 
 
 signal airborne
+signal landed
 
 # Camera Constants
 const CAMERA_GROUNDED_LOOKAHEAD = 1
@@ -110,6 +111,13 @@ func animateToTargetAngle(delta):
 	get_node("Sprite").offset.y = y_bias	
 	get_node("Sprite/SnowParticles").setOffset(y_bias)
 
+func wipeout():
+	#nasty but w/e
+	get_node("../UI").wipeout()
+	grounded = true
+	emit_signal("airborne",false)
+	emit_signal("landed")
+	fwdVelocity = 0
 
 func getYVel():
 	if(grounded):
@@ -157,6 +165,7 @@ func _physics_process(delta):
 		if(c):
 			grounded = true
 			emit_signal("airborne",false)
+			emit_signal("landed")
 		move_and_collide(Vector2(delta * fwdVelocity,0))
 		airVel += GRAVITY
 		targAngle = 0

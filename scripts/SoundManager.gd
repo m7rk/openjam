@@ -6,13 +6,13 @@ var shred = null
 var main = null
 var alt = null
 const FADETIME = 1
-
+const SHRED_MAX = -15
 
 
 
 var tracks = []
 var selTrack = 0
-var VOL_MAX = -5
+var VOL_MAX = -8
 
 var mainTargVol = VOL_MAX
 var altTargVol = VOL_MAX
@@ -24,13 +24,18 @@ func _ready():
 	alt = get_node("soundalt")
 	
 	# Load All tracks?
-	tracks.append(load("res://music/o1_b.ogg"))
-	tracks.append(load("res://music/o1_f.ogg"))
-	tracks.append(load("res://music/o2_b.ogg"))
-	tracks.append(load("res://music/o2_f.ogg"))
-	tracks.append(load("res://music/o3_b.ogg"))
-	tracks.append(load("res://music/o3_f.ogg"))
+	tracks.append(load("res://music/00.ogg"))
+	tracks.append(null)
+	tracks.append(load("res://music/01_b.ogg"))
+	tracks.append(load("res://music/01_f.ogg"))
+	tracks.append(load("res://music/02_b.ogg"))
+	tracks.append(load("res://music/02_f.ogg"))
+	tracks.append(load("res://music/03_b.ogg"))
+	tracks.append(load("res://music/03_f.ogg"))
+	tracks.append(load("res://music/04_b.ogg"))
+	tracks.append(load("res://music/04_f.ogg"))
 	shred.volume_db = -1000
+	shred.play()
 	main.volume_db = VOL_MAX
 	alt.volume_db = VOL_MAX
 
@@ -48,7 +53,7 @@ func fadeIn():
 
 	
 func trackSwitch(i):
-	selTrack = i - 1
+	selTrack = i
 	mainTargVol = -60
 	altTargVol = -60
 	get_node("Tween").interpolate_callback(self, 1, "fadeIn")
@@ -56,7 +61,7 @@ func trackSwitch(i):
 	
 
 func _process(delta):
-	shred.volume_db = min(VOL_MAX,-50 + (20 * get_node("../../Player").velocityShredRatio()))
+	shred.volume_db = min(SHRED_MAX ,-70 + (40 * get_node("../../Player").velocityShredRatio()))
 	main.volume_db = lerp(main.volume_db,mainTargVol, FADETIME * delta)
 	alt.volume_db = lerp(alt.volume_db,altTargVol, FADETIME * delta)
 
@@ -67,3 +72,7 @@ func _on_LiftSends_game_end():
 
 func _on_Map_load_level(i):
 	trackSwitch(i)
+
+
+func _on_Player_landed():
+	get_node("land").play()

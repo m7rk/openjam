@@ -12,8 +12,8 @@ func start_tween():
 	var tween = get_node("Tween")
 	var spr = get_node("Sprite")
 	tween.interpolate_property(spr, "position",
-		arg[0], arg[1], 1,
-		Tween.TRANS_CIRC, Tween.EASE_IN_OUT)
+		arg[0], arg[1], 0.5,
+		Tween.TRANS_SINE, Tween.EASE_IN_OUT)
 	tween.start()
 
 # Called when the node enters the scene tree for the first time.
