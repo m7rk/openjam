@@ -23,6 +23,7 @@ const DOWNHILLBONUS = 40
 const UPHILLBONUS = 10
 const DECEL = 15
 const GAME_END_DECEL = 500
+const BOARD_UPGRADE_SPEED_BONUS = 40
 
  
 # Movement Variables
@@ -30,6 +31,11 @@ var fwdVelocity = MINSPEED
 var velocityInput = 0;
 var boostInput = false
 var boost = BOOST_MAX
+var teleportFlag = -1
+
+# Items
+var usedJetpack = false
+var usedFireball = false
 
 # States about being in the air
 var grounded = true
@@ -42,9 +48,28 @@ var targAngle = 0
 
 var gameEnded = false
 
+# Increments speed
+var boardLevel = 0
+
+# More boost
+var hasEnergyDrink = false
+
+# Provides one Impulse
+var hasJetpack = false
+
+# Faster Acceleration
+var hasScarf = false
+
+# Provides one fireball.
+var hasFireball = false
+
+
 # Called when the node enters the scene tree for the first time.
 func _ready():
 	pass # Replace with function body.
+
+func maxSpeed():
+	return MAXSPEED + (boardLevel * BOARD_UPGRADE_SPEED_BONUS)
 
 func getNextBoardState():
 	var b = get_node("Back").get_overlapping_bodies().size() > 0
@@ -58,12 +83,15 @@ func getStaminaPct():
 func updateVelocity(delta):
 	fwdVelocity += delta * ACCEL * velocityInput
 
-	if(fwdVelocity > MAXSPEED):
-		fwdVelocity = lerp(fwdVelocity, MAXSPEED, delta * OVER_SPEED_FRCTION)
+	if(fwdVelocity >  maxSpeed()):
+		fwdVelocity = lerp(fwdVelocity, maxSpeed(), delta * OVER_SPEED_FRCTION)
 		
 	if boost > 0 && boostInput:
 		fwdVelocity += BOOSTACCEL * ACCEL * delta
-		boost -= delta
+		if hasEnergyDrink:
+			boost -= (delta / 2)
+		else:
+			boost -= delta
 		
 	if velocityInput <= 0:
 		fwdVelocity -= delta * DECEL
@@ -76,7 +104,7 @@ func updateVelocity(delta):
 
 func velocityShredRatio():
 	if grounded:
-		return fwdVelocity / (1.5*MAXSPEED)
+		return fwdVelocity / (1.5* maxSpeed())
 	else:
 		return 0
 	
@@ -129,6 +157,10 @@ func getYVel():
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _physics_process(delta):
 
+	if(teleportFlag != -1):
+		position = get_node("../LiftReturns/" + str(teleportFlag)).position
+		teleportFlag = -1
+		
 	if grounded:
 		updateVelocity(delta)
 		# Send the board up into the air.
@@ -155,7 +187,7 @@ func _physics_process(delta):
 			# Find the rotation to use.
 			handleRot(bs,delta)
 			
-		var baseIn = fwdVelocity/MAXSPEED * (1 + 3*clamp((currAngle - targAngle)/45,0,1))
+		var baseIn = fwdVelocity/ maxSpeed() * (1 + 3*clamp((currAngle - targAngle)/45,0,1))
 		get_node("Sprite/SnowParticles").setIntensity(baseIn)
 		
 			
@@ -173,10 +205,6 @@ func _physics_process(delta):
 		animateToTargetAngle(delta)
 		
 		
-func teleport(i):
-	position = get_node("../LiftReturns/" + str(i)).position
-
-
 func _input(ev):
 	if(gameEnded):
 		velocityInput = 0
@@ -197,8 +225,19 @@ func _input(ev):
 func _on_LiftSends_game_end():
 	gameEnded = true
 
-
 func _on_Map_load_level(i):
-	teleport(i)
+	teleportFlag = i
 	gameEnded = false
 	boost = BOOST_MAX
+	if(hasJetpack):
+		usedJetpack = false
+	if(hasFireball):
+		usedFireball = false
+		
+func getSpriteSet():
+	var base = boardLevel * 8
+	if(hasScarf):
+		base += 4
+	if(hasJetpack):
+		base += 2
+	return base
