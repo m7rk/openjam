@@ -1,6 +1,6 @@
 extends CanvasLayer
 
-const DEFAULT_LEVEL = 2
+const DEFAULT_LEVEL = 0
 
 signal load_level
 # Declare member variables here. Examples:

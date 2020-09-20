@@ -115,6 +115,7 @@ func wipeout():
 	#nasty but w/e
 	get_node("../UI").wipeout()
 	grounded = true
+	onRamp = false
 	emit_signal("airborne",false)
 	emit_signal("landed")
 	fwdVelocity = 0

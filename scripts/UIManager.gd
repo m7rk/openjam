@@ -7,7 +7,7 @@ var inAir = false
 
 var pointsTotal = 0
 var pointsCurrent = 0
-var fadeTime = 2
+var fadeTime = 3
 
 const POINTANIMTIME = 8
 const POINTPOWER = 1.5
@@ -23,15 +23,17 @@ func _ready():
 func _process(delta):
 	var player = get_node("../Player")
 	if(inAir):
-		fadeTime = 2
+		fadeTime = 3
 		airTimeTotal += delta
 		get_node("right/right/AirTime").text = "AIRTIME: " + ("%1.1f" % airTimeTotal)
 		get_node("right/right/AirTime").add_color_override("font_color", Color(1-(airTimeTotal/10),1,1-(airTimeTotal/10),1))
 	else:
 		if(overRideText != ""):
 			get_node("right/right/AirTime").text = overRideText
+			get_node("right/right/AirTime").add_color_override("font_color", Color(1,0,0,max(0,fadeTime)))
+		else:	
+			get_node("right/right/AirTime").add_color_override("font_color", Color(1,1,1,max(0,fadeTime)))
 		fadeTime -= delta
-		get_node("right/right/AirTime").add_color_override("font_color", Color(1,1,1,max(0,fadeTime)))
 	
 	get_node("left/left/Stamina").value = player.getStaminaPct()
 	get_node("left/left/Speed").text = " " + str(int(player.fwdVelocity/15)) + " MPH"
@@ -58,4 +60,5 @@ func _on_Diamond_got_diamond():
 
 func wipeout():
 	airTimeTotal = 0
-	overRideText = "WIPEOUT!"
+	pointsTotal = max(0, pointsTotal - 10)
+	overRideText = "WIPEOUT! -10 PTS!"
