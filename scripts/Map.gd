@@ -1,5 +1,7 @@
 extends CanvasLayer
 
+const DEFAULT_LEVEL = 2
+
 signal load_level
 # Declare member variables here. Examples:
 # var a = 2
@@ -39,6 +41,9 @@ func _on_Button4_pressed():
 
 func _on_Button5_pressed():
 	onLevel(5)
+	
+func _on_ButtonShop_pressed():
+	onLevel(0)
 
 
 func _on_LiftSends_game_end():
@@ -46,4 +51,7 @@ func _on_LiftSends_game_end():
 
 
 func _on_MarginContainer_player_ready():
-	emit_signal("load_level",1)
+	emit_signal("load_level",DEFAULT_LEVEL)
+
+
+
