@@ -49,7 +49,7 @@ var airVel = 0
 var currAngle = 0
 var targAngle = 0
 
-var fireballCoolDown = 1f
+var fireballCoolDown = 1
 
 var gameEnded = false
 
@@ -118,6 +118,7 @@ func updateVelocity(delta):
 		
 
 func makeFireBall():
+	fireballCoolDown = 1
 	var fresource = preload("res://Fireball.tscn")
 	get_node("FireBallSound").play()
 	
@@ -126,23 +127,23 @@ func makeFireBall():
 	f.global_position = global_position
 	f.position += Vector2(0,-10)
 	
-	var f = 5 + fwdVelocity*1.5
+	f = 5 + fwdVelocity * 1.5
 	
-	f.speed = new Vector3(0,f)
+	f.speed = Vector2(0,f)
 	
-	var f = fresource.instance()
+	f = fresource.instance()
 	get_node("../").add_child(f)
 	f.global_position = global_position
 	f.position += Vector2(0,-10)
 	
-	f.speed = new Vector3(f/2,f)
+	f.speed = Vector2(f/2,f)
 	
-	var f = fresource.instance()
+	f = fresource.instance()
 	get_node("../").add_child(f)
 	f.global_position = global_position
 	f.position += Vector2(0,-10)
 	
-	f.speed = new Vector3(-f/2,f)
+	f.speed = Vector2(-f/2,f)
 
 func velocityShredRatio():
 	if grounded:
@@ -199,6 +200,8 @@ func getYVel():
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _physics_process(delta):
 
+	fireballCoolDown -= delta
+	
 	if(teleportFlag != -1):
 		position = get_node("../LiftReturns/" + str(teleportFlag)).position
 		teleportFlag = -1
@@ -280,7 +283,7 @@ func _input(ev):
 		canUseJetpack = false
 		firedJetpack = true
 		
-	if Input.is_key_pressed(KEY_N) hasFireball:
+	if Input.is_key_pressed(KEY_N) && fireballCoolDown < 0 && hasFireball:
 		makeFireBall()
 		
 		

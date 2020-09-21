@@ -5,7 +5,7 @@ extends CanvasLayer
 var airTimeTotal = 0
 var inAir = false
 
-var pointsTotal = 0
+var pointsTotal = 1000
 var pointsCurrent = 0
 var fadeTime = 3
 
@@ -36,7 +36,7 @@ func _process(delta):
 		get_node("right/right/Hype").add_color_override("font_color", Color(1,1,1,max(0,fadeTime)))
 		fadeTime -= delta
 	
-	get_node("left/left/Stamina").value = player.getStaminaPct()
+	get_node("left/left/Box/Stamina").value = player.getStaminaPct()
 	get_node("left/left/Speed").text = " " + str(int(player.fwdVelocity/15)) + " MPH"
 	
 	var points = get_node("right/right/Points")
@@ -44,6 +44,10 @@ func _process(delta):
 	if(pointsTotal - 1 == int(pointsCurrent)):
 		pointsCurrent = pointsTotal
 	points.text = str(int(pointsCurrent)) + " PTS"
+	
+	get_node("left/left/Box/EDRINK").visible =  get_node("../Player").canUseEnergyDrink
+	get_node("left/left/Box/JETPACK").visible =  get_node("../Player").canUseJetpack
+	get_node("left/left/Box/FIREBALL").visible =  get_node("../Player").hasFireball && get_node("../Player").fireballCoolDown < 0
 
 func hitBat():
 	pointsTotal = max(0, pointsTotal - 20)
