@@ -23,7 +23,7 @@ const DOWNHILLBONUS = 40
 const UPHILLBONUS = 10
 const DECEL = 40
 const GAME_END_DECEL = 500
-const BOARD_UPGRADE_SPEED_BONUS = 60
+const BOARD_UPGRADE_SPEED_BONUS = 40
 const JETPACK_STRENGTH = 300
 const BOOST_RECHARGE = 0.0003
 
@@ -48,6 +48,8 @@ var airVel = 0
 # Board rotation, cosmetic.
 var currAngle = 0
 var targAngle = 0
+
+var fireballCoolDown = 1f
 
 var gameEnded = false
 
@@ -87,7 +89,7 @@ func getStaminaPct():
 func updateVelocity(delta):
 	
 	if(hasScarf):
-		fwdVelocity += delta * ACCEL * 3 * velocityInput
+		fwdVelocity += delta * ACCEL * 2 * velocityInput
 	else:
 		fwdVelocity += delta * ACCEL * velocityInput
 
@@ -117,12 +119,30 @@ func updateVelocity(delta):
 
 func makeFireBall():
 	var fresource = preload("res://Fireball.tscn")
+	get_node("FireBallSound").play()
+	
 	var f = fresource.instance()
 	get_node("../").add_child(f)
-	get_node("FireBallSound").play()
 	f.global_position = global_position
 	f.position += Vector2(0,-10)
-	f.speed = fwdVelocity
+	
+	var f = 5 + fwdVelocity*1.5
+	
+	f.speed = new Vector3(0,f)
+	
+	var f = fresource.instance()
+	get_node("../").add_child(f)
+	f.global_position = global_position
+	f.position += Vector2(0,-10)
+	
+	f.speed = new Vector3(f/2,f)
+	
+	var f = fresource.instance()
+	get_node("../").add_child(f)
+	f.global_position = global_position
+	f.position += Vector2(0,-10)
+	
+	f.speed = new Vector3(-f/2,f)
 
 func velocityShredRatio():
 	if grounded:
@@ -260,7 +280,7 @@ func _input(ev):
 		canUseJetpack = false
 		firedJetpack = true
 		
-	if ev is InputEventKey and ev.scancode == KEY_N and not ev.echo && hasFireball:
+	if Input.is_key_pressed(KEY_N) hasFireball:
 		makeFireBall()
 		
 		

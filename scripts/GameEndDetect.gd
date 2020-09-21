@@ -23,8 +23,8 @@ func _on_0_hit(body, id):
 	if(endGameFlag):
 		# Checkpoint hit! 
 		# Give player boost, next music track, and finally, clear UI
-		get_node("../Camera2D/SoundManager").trackSwitch(id)
-		get_node("../Player").refresh(id)
+		get_node("../Camera2D/SoundManager").trackSwitch(id-1)
+		get_node("../Player").refresh(id-1)
 	else:
 		try_emit(body)
 
