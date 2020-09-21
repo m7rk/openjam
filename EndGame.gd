@@ -38,9 +38,10 @@ func gameOverString():
 	
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta):
-	if(raceStarted && get_node("EndGameLayer/Center/Label").text == ""):
-		time += delta
-		get_node("EndGameLayer/Time/Label").text = secToMin(int(time)) + " " + getBestPossible()
+	if(raceStarted):
+		if(get_node("EndGameLayer/Center/Label").text == ""):
+			time += delta
+			get_node("EndGameLayer/Time/Label").text = secToMin(int(time)) + " " + getBestPossible()
 	else:
 		get_node("EndGameLayer/Time/Label").text = ""
 		get_node("EndGameLayer/Center/Label").text = "" 
