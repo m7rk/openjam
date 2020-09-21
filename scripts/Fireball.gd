@@ -1,6 +1,5 @@
 extends Node2D
 
-var BASE_SPEED = 150
 var life = 3
 var speed = Vector2(0,1)
 

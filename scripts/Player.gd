@@ -127,23 +127,23 @@ func makeFireBall():
 	f.global_position = global_position
 	f.position += Vector2(0,-10)
 	
-	f = 5 + fwdVelocity * 1.5
+	var vel = 5 + fwdVelocity * 1.5
 	
-	f.speed = Vector2(0,f)
-	
-	f = fresource.instance()
-	get_node("../").add_child(f)
-	f.global_position = global_position
-	f.position += Vector2(0,-10)
-	
-	f.speed = Vector2(f/2,f)
+	f.speed = Vector2(vel,0)
 	
 	f = fresource.instance()
 	get_node("../").add_child(f)
 	f.global_position = global_position
 	f.position += Vector2(0,-10)
 	
-	f.speed = Vector2(-f/2,f)
+	f.speed = Vector2(vel,vel/2)
+	
+	f = fresource.instance()
+	get_node("../").add_child(f)
+	f.global_position = global_position
+	f.position += Vector2(0,-10)
+	
+	f.speed = Vector2(vel,-vel/2)
 
 func velocityShredRatio():
 	if grounded:
@@ -208,7 +208,7 @@ func _physics_process(delta):
 		
 	if(firedJetpack):
 		if grounded:
-			emit_signal("grounded",false)
+			emit_signal("airborne",true,"Jetpack Boost")
 			grounded = false
 		onRamp = false
 		airVel -= JETPACK_STRENGTH
