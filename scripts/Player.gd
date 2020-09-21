@@ -16,15 +16,16 @@ const ACCEL = 30
 const MINSPEED = 0
 const MAXSPEED = 120
 const GRAVITY = 8
-const BOOST_MAX = 3.0
+const BOOST_MAX = 2.0
 const OVER_SPEED_FRCTION = 1
 const BOOSTACCEL = 8
 const DOWNHILLBONUS = 40
 const UPHILLBONUS = 10
 const DECEL = 40
 const GAME_END_DECEL = 500
-const BOARD_UPGRADE_SPEED_BONUS = 75
+const BOARD_UPGRADE_SPEED_BONUS = 60
 const JETPACK_STRENGTH = 300
+const BOOST_RECHARGE = 0.0003
 
  
 # Movement Variables
@@ -37,7 +38,6 @@ var currStage = 0
 
 # Items
 var canUseJetpack = false
-var canUseFireball = false
 var canUseEnergyDrink = false
 
 # States about being in the air
@@ -99,7 +99,7 @@ func updateVelocity(delta):
 		boost -= delta
 		if(boost <= 0 && canUseEnergyDrink):
 			canUseEnergyDrink = false
-			boost += BOOST_MAX
+			boost += (BOOST_MAX / 2)
 			get_node("EDrinkSound").play()
 			
 		
@@ -110,6 +110,9 @@ func updateVelocity(delta):
 		fwdVelocity -= delta * GAME_END_DECEL
 		
 	fwdVelocity = max(fwdVelocity, MINSPEED)
+	
+	boost += fwdVelocity * delta * BOOST_RECHARGE
+	boost = min(BOOST_MAX,boost)
 		
 
 func makeFireBall():
@@ -225,6 +228,10 @@ func _physics_process(delta):
 		
 		get_node("Sprite/SnowParticles").setIntensity(0)
 		var c = move_and_collide(Vector2(0, delta * airVel))
+		
+		if gameEnded:
+			fwdVelocity -= delta * GAME_END_DECEL
+		
 		if(c):
 			grounded = true
 			emit_signal("airborne",false,"")
@@ -253,8 +260,7 @@ func _input(ev):
 		canUseJetpack = false
 		firedJetpack = true
 		
-	if Input.is_key_pressed(KEY_N) && canUseFireball:
-		canUseFireball = false
+	if ev is InputEventKey and ev.scancode == KEY_N and not ev.echo && hasFireball:
 		makeFireBall()
 		
 		
@@ -266,18 +272,19 @@ func _input(ev):
 func _on_LiftSends_game_end():
 	gameEnded = true
 
-func _on_Map_load_level(i):
-	teleportFlag = i
+func refresh(i):
 	currStage = i
 	gameEnded = false
 	boost = BOOST_MAX
 	if(hasJetpack):
 		canUseJetpack = true
-	if(hasFireball):
-		canUseFireball = true
 	if(hasEnergyDrink):
 		canUseEnergyDrink = true
 	get_node("../UI/right/right/Record").text = ""
+	
+func _on_Map_load_level(i):
+	teleportFlag = i
+	refresh(i)
 		
 func getSpriteSet():
 	var base = boardLevel * 8
