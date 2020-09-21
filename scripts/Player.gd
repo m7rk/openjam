@@ -112,6 +112,15 @@ func updateVelocity(delta):
 	fwdVelocity = max(fwdVelocity, MINSPEED)
 		
 
+func makeFireBall():
+	var fresource = preload("res://Fireball.tscn")
+	var f = fresource.instance()
+	get_node("../").add_child(f)
+	get_node("FireBallSound").play()
+	f.global_position = global_position
+	f.position += Vector2(0,-10)
+	f.speed = fwdVelocity
+
 func velocityShredRatio():
 	if grounded:
 		return fwdVelocity / (1.5* maxSpeed())
@@ -203,7 +212,6 @@ func _physics_process(delta):
 			airVel = -fwdVelocity
 			position = last_pos
 			var v = get_node("../NamedRamps").findChild(currStage,position)
-			print(v)
 			emit_signal("airborne",true,v)
 		else:
 			# Find the rotation to use.
@@ -244,6 +252,10 @@ func _input(ev):
 	if Input.is_key_pressed(KEY_M) && canUseJetpack:
 		canUseJetpack = false
 		firedJetpack = true
+		
+	if Input.is_key_pressed(KEY_N) && canUseFireball:
+		canUseFireball = false
+		makeFireBall()
 		
 		
 		
