@@ -24,7 +24,7 @@ const UPHILLBONUS = 10
 const DECEL = 40
 const GAME_END_DECEL = 500
 const BOARD_UPGRADE_SPEED_BONUS = 75
-const JETPACK_STRENGTH = 300
+const JETPACK_STRENGTH = 350
 
  
 # Movement Variables
@@ -86,7 +86,7 @@ func getStaminaPct():
 func updateVelocity(delta):
 	
 	if(hasScarf):
-		fwdVelocity += delta * ACCEL * 2 * velocityInput
+		fwdVelocity += delta * ACCEL * 3 * velocityInput
 	else:
 		fwdVelocity += delta * ACCEL * velocityInput
 
@@ -98,7 +98,7 @@ func updateVelocity(delta):
 		boost -= delta
 		if(boost <= 0 && canUseEnergyDrink):
 			canUseEnergyDrink = false
-			boost += 1
+			boost += BOOST_MAX
 			get_node("EDrinkSound").play()
 			
 		

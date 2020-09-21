@@ -28,11 +28,9 @@ func _process(delta):
 		get_node("right/right/AirTime").text = "AIRTIME: " + ("%1.1f" % airTimeTotal)
 		get_node("right/right/AirTime").add_color_override("font_color", Color(1-(airTimeTotal/10),1,1-(airTimeTotal/10),1))
 	else:
-		if(overRideText != ""):
-			get_node("right/right/AirTime").text = overRideText
-			get_node("right/right/AirTime").add_color_override("font_color", Color(1,0,0,max(0,fadeTime)))
-		else:	
-			get_node("right/right/AirTime").add_color_override("font_color", Color(1,1,1,max(0,fadeTime)))
+		get_node("right/right/Hype").text = overRideText
+		get_node("right/right/AirTime").add_color_override("font_color", Color(1,1,1,max(0,fadeTime)))
+		get_node("right/right/Hype").add_color_override("font_color", Color(1,1,1,max(0,fadeTime)))
 		fadeTime -= delta
 	
 	get_node("left/left/Stamina").value = player.getStaminaPct()
@@ -50,15 +48,29 @@ func _on_Player_airborne(air):
 	if(air):
 		overRideText = ""
 	if(!air):
-		pointsTotal += int(10 * pow(airTimeTotal,POINTPOWER))
+		var sum = 0
+		sum += int(10 * pow(airTimeTotal,POINTPOWER))
+		if(airTimeTotal >= 2):
+			overRideText = "RAD! +10"
+			sum  += 10
+		if(airTimeTotal >= 3):
+			overRideText = "SICK!! +25"
+			sum  += 15
+		if(airTimeTotal >= 4):
+			overRideText = "AWESOME!!! +50"
+			sum += 25
+		if(airTimeTotal >= 5):
+			overRideText = "HOLY ****!!!! +100"
+			sum += 50
+		pointsTotal += sum
 		airTimeTotal = 0
 		
 
 func _on_Diamond_got_diamond():
-	pointsTotal += 25
+	pointsTotal += 10
 	get_node("diamond").play()
 
 func wipeout():
 	airTimeTotal = 0
-	pointsTotal = max(0, pointsTotal - 20)
-	overRideText = "WIPEOUT! -20 PTS!"
+	pointsTotal = max(0, pointsTotal - 10)
+	overRideText = "WIPEOUT! -10 PTS!"
