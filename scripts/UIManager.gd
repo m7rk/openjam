@@ -15,6 +15,8 @@ const POINTPOWER = 2.0
 var overRideText = ""
 var currRampName = ""
 
+var wipeOutFlag = false
+
 # Called when the node enters the scene tree for the first time.
 func _ready():
 	pass # Replace with function body.
@@ -43,29 +45,40 @@ func _process(delta):
 		pointsCurrent = pointsTotal
 	points.text = str(int(pointsCurrent)) + " PTS"
 
+func hitBat():
+	pointsTotal = max(0, pointsTotal - 20)
+	overRideText = "DON'T HIT BATS! -20 PTS!"
+	get_node("hitbat").play()
+	fadeTime = 3
+	get_node("right/right/AirTime").text = ""
+	
 
 func _on_Player_airborne(air,rampname):
 	inAir = air
 	if(air):
 		overRideText = ""
 	if(!air):
-		var sum = 0
-		sum += int(10 * pow(airTimeTotal,POINTPOWER))
-		if(airTimeTotal >= 2):
-			overRideText = "RAD! +10"
-			sum  += 10
-		if(airTimeTotal >= 3):
-			overRideText = "SICK!! +25"
-			sum  += 15
-		if(airTimeTotal >= 4):
-			overRideText = "AWESOME!!! +50"
-			sum += 25
-		if(airTimeTotal >= 5):
-			overRideText = "HOLY ****!!!! +100"
-			sum += 50
-		pointsTotal += sum
-		airTimeTotal = 0
-		get_node("right/right/Record").text += currRampName + " : " + str(sum) + " PTS\n"
+		if(wipeOutFlag):
+			wipeOutFlag = false
+			get_node("right/right/Record").text += currRampName + " : -20 PTS\n"	
+		else:
+			var sum = 0
+			sum += int(10 * pow(airTimeTotal,POINTPOWER))
+			if(airTimeTotal >= 2):
+				overRideText = "RAD! +10"
+				sum  += 10
+			if(airTimeTotal >= 3):
+				overRideText = "SICK!! +25"
+				sum  += 15
+			if(airTimeTotal >= 4):
+				overRideText = "AWESOME!!! +50"
+				sum += 25
+			if(airTimeTotal >= 5):
+				overRideText = "HOLY ****!!!! +100"
+				sum += 50
+			pointsTotal += sum
+			airTimeTotal = 0
+			get_node("right/right/Record").text += currRampName + " : " + str(sum) + " PTS\n"
 	currRampName = rampname
 		
 
@@ -74,6 +87,7 @@ func _on_Diamond_got_diamond():
 	get_node("diamond").play()
 
 func wipeout():
+	wipeOutFlag = true
 	airTimeTotal = 0
-	pointsTotal = max(0, pointsTotal - 10)
-	overRideText = "WIPEOUT! -10 PTS!"
+	pointsTotal = max(0, pointsTotal - 20)
+	overRideText = "WIPEOUT! -20 PTS!"
