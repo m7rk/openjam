@@ -34,6 +34,8 @@ func _ready():
 	tracks.append(load("res://music/03_f.ogg"))
 	tracks.append(load("res://music/04_b.ogg"))
 	tracks.append(load("res://music/04_f.ogg"))
+	tracks.append(load("res://music/05_b.ogg"))
+	tracks.append(load("res://music/05_f.ogg"))
 	shred.volume_db = -1000
 	shred.play()
 	main.volume_db = VOL_MAX
