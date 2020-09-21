@@ -26,5 +26,7 @@ func _on_Area2D_body_entered(body):
 	get_node("../../UI").hitBat()
 
 func _on_Area2D_area_entered(area):
+	if(area.get_node("../").name == "Player"):
+		return
 	queue_free()
 	area.get_node("../").queue_free()
