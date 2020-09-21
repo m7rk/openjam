@@ -13,6 +13,7 @@ const POINTANIMTIME = 8
 const POINTPOWER = 2.0
 
 var overRideText = ""
+var currRampName = ""
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
@@ -43,7 +44,7 @@ func _process(delta):
 	points.text = str(int(pointsCurrent)) + " PTS"
 
 
-func _on_Player_airborne(air):
+func _on_Player_airborne(air,rampname):
 	inAir = air
 	if(air):
 		overRideText = ""
@@ -64,6 +65,8 @@ func _on_Player_airborne(air):
 			sum += 50
 		pointsTotal += sum
 		airTimeTotal = 0
+		get_node("right/right/Record").text += currRampName + " : " + str(sum) + " PTS\n"
+	currRampName = rampname
 		
 
 func _on_Diamond_got_diamond():

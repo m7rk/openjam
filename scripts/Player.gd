@@ -24,7 +24,7 @@ const UPHILLBONUS = 10
 const DECEL = 40
 const GAME_END_DECEL = 500
 const BOARD_UPGRADE_SPEED_BONUS = 75
-const JETPACK_STRENGTH = 350
+const JETPACK_STRENGTH = 300
 
  
 # Movement Variables
@@ -33,6 +33,7 @@ var velocityInput = 0;
 var boostInput = false
 var boost = BOOST_MAX
 var teleportFlag = -1
+var currStage = 0
 
 # Items
 var canUseJetpack = false
@@ -153,7 +154,7 @@ func wipeout():
 	get_node("../UI").wipeout()
 	grounded = true
 	onRamp = false
-	emit_signal("airborne",false)
+	emit_signal("airborne",false,"")
 	emit_signal("landed")
 	fwdVelocity = 0
 
@@ -201,7 +202,9 @@ func _physics_process(delta):
 			onRamp = false
 			airVel = -fwdVelocity
 			position = last_pos
-			emit_signal("airborne",true)
+			var v = get_node("../NamedRamps").findChild(currStage,position)
+			print(v)
+			emit_signal("airborne",true,v)
 		else:
 			# Find the rotation to use.
 			handleRot(bs,delta)
@@ -216,7 +219,7 @@ func _physics_process(delta):
 		var c = move_and_collide(Vector2(0, delta * airVel))
 		if(c):
 			grounded = true
-			emit_signal("airborne",false)
+			emit_signal("airborne",false,"")
 			emit_signal("landed")
 			airVel = 0
 		move_and_collide(Vector2(delta * fwdVelocity,0))
@@ -253,6 +256,7 @@ func _on_LiftSends_game_end():
 
 func _on_Map_load_level(i):
 	teleportFlag = i
+	currStage = i
 	gameEnded = false
 	boost = BOOST_MAX
 	if(hasJetpack):
@@ -261,6 +265,7 @@ func _on_Map_load_level(i):
 		canUseFireball = true
 	if(hasEnergyDrink):
 		canUseEnergyDrink = true
+	get_node("../UI/right/right/Record").text = ""
 		
 func getSpriteSet():
 	var base = boardLevel * 8
