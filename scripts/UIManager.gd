@@ -5,7 +5,7 @@ extends CanvasLayer
 var airTimeTotal = 0
 var inAir = false
 
-var pointsTotal = 1000
+var pointsTotal = 0
 var pointsCurrent = 0
 var fadeTime = 3
 
