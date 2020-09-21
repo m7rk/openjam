@@ -11,6 +11,7 @@ const SHRED_MAX = -15
 
 
 var tracks = []
+var BPM = []
 var selTrack = 0
 var VOL_MAX = -8
 
@@ -36,6 +37,15 @@ func _ready():
 	tracks.append(load("res://music/04_f.ogg"))
 	tracks.append(load("res://music/05_b.ogg"))
 	tracks.append(load("res://music/05_f.ogg"))
+	
+	BPM.append(110)
+	BPM.append(120)
+	BPM.append(186)
+	BPM.append(100)
+	BPM.append(130)
+	BPM.append(110)
+	
+	
 	shred.volume_db = -1000
 	shred.play()
 	main.volume_db = VOL_MAX
@@ -52,6 +62,7 @@ func fadeIn():
 	alt.volume_db = VOL_MAX
 	main.play()
 	alt.play()
+	get_node("../../Player/Sprite").setBPM(BPM[selTrack])
 
 	
 func trackSwitch(i):
