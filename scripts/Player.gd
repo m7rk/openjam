@@ -136,14 +136,14 @@ func makeFireBall():
 	f.global_position = global_position
 	f.position += Vector2(0,-10)
 	
-	f.speed = Vector2(vel,vel/2)
+	f.speed = Vector2(vel,vel/4)
 	
 	f = fresource.instance()
 	get_node("../").add_child(f)
 	f.global_position = global_position
 	f.position += Vector2(0,-10)
 	
-	f.speed = Vector2(vel,-vel/2)
+	f.speed = Vector2(vel,-vel/4)
 
 func velocityShredRatio():
 	if grounded:
